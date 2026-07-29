@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodHub - Food Delivery App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- SIGNUP PAGE - PHASE 1 (NEW USER) -->
+    <div id="signup-page" class="page active">
+        <div class="auth-container">
+            <div class="auth-card">
+                <h1 class="app-logo">🍔 FoodHub</h1>
+                <h2>Create Your Account</h2>
+                <p>Join FoodHub and order food from your favorite restaurants</p>
+                
+                <form id="signup-form">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="signup-name" placeholder="Enter your full name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="signup-email" placeholder="Enter your email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" id="signup-phone" placeholder="10-digit mobile number" maxlength="10" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="signup-password" placeholder="Enter strong password" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input type="password" id="signup-confirm" placeholder="Confirm your password" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Sign Up</button>
+                </form>
+                
+                <div class="auth-footer">
+                    <p>Already have an account? <a href="#" onclick="switchPage('login-page')">Login Here</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGIN PAGE - PHASE 2 (REGISTERED USER) -->
+    <div id="login-page" class="page">
+        <div class="auth-container">
+            <div class="auth-card">
+                <h1 class="app-logo">🍔 FoodHub</h1>
+                <h2>Welcome Back!</h2>
+                <p>Login to your account and order delicious food</p>
+                
+                <form id="login-form">
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="login-email" placeholder="Enter your email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="login-password" placeholder="Enter your password" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+                
+                <div class="auth-footer">
+                    <p>Don't have an account? <a href="#" onclick="switchPage('signup-page')">Sign Up Here</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CUSTOMER DASHBOARD PAGE -->
+    <div id="dashboard-page" class="page">
+        <nav class="navbar">
+            <div class="navbar-left">
+                <h1 class="app-logo">🍔 FoodHub</h1>
+            </div>
+            <div class="navbar-right">
+                <span id="user-name">Welcome</span>
+                <button class="btn btn-secondary" onclick="logout()">Logout</button>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('restaurants')">🏪 Restaurants</button>
+                <button class="tab-btn" onclick="switchTab('orders')">📦 My Orders</button>
+                <button class="tab-btn" onclick="switchTab('queries')">❓ Support & Queries</button>
+                <button class="tab-btn" onclick="switchTab('profile')">👤 Profile</button>
+            </div>
+
+            <!-- RESTAURANTS TAB -->
+            <div id="restaurants-tab" class="tab-content active">
+                <h2>Order From Our Partner Restaurants</h2>
+                <div id="restaurants-grid" class="grid">
+                    <!-- Restaurants will be loaded here -->
+                </div>
+            </div>
+
+            <!-- RESTAURANT MENU MODAL -->
+            <div id="menu-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="closeMenuModal()">&times;</span>
+                    <h2 id="menu-title">Menu</h2>
+                    <div id="menu-items" class="menu-grid">
+                        <!-- Menu items will be loaded here -->
+                    </div>
+                    <div class="cart-section">
+                        <h3>Your Cart</h3>
+                        <div id="cart-items"></div>
+                        <div class="cart-total">
+                            <strong>Total: ₹<span id="cart-total">0</span></strong>
+                        </div>
+                        <div class="form-group">
+                            <label>Delivery Address</label>
+                            <textarea id="delivery-address" placeholder="Enter full delivery address" required></textarea>
+                        </div>
+                        <button class="btn btn-primary" onclick="placeOrder()">Place Order</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MY ORDERS TAB -->
+            <div id="orders-tab" class="tab-content">
+                <h2>Your Order History</h2>
+                <div id="orders-list" class="order-list">
+                    <!-- Orders will be loaded here -->
+                </div>
+            </div>
+
+            <!-- SUPPORT & QUERIES TAB -->
+            <div id="queries-tab" class="tab-content">
+                <div class="queries-container">
+                    <div class="queries-left">
+                        <h2>Customer Support</h2>
+                        <p>Have an issue? Contact our support team below</p>
+                        
+                        <form id="query-form" class="query-form">
+                            <div class="form-group">
+                                <label>Select Related Order (Optional)</label>
+                                <select id="query-order-id">
+                                    <option value="">-- Select an order --</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Subject</label>
+                                <input type="text" id="query-subject" placeholder="Brief description of issue" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea id="query-message" placeholder="Describe your problem in detail" rows="5" required></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">Submit Query</button>
+                        </form>
+                    </div>
+
+                    <div class="queries-right">
+                        <h3>Your Previous Queries</h3>
+                        <div id="queries-list" class="queries-list">
+                            <!-- Queries will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROFILE TAB -->
+            <div id="profile-tab" class="tab-content">
+                <h2>My Profile</h2>
+                <div class="profile-card">
+                    <div class="profile-info">
+                        <p><strong>Name:</strong> <span id="profile-name"></span></p>
+                        <p><strong>Email:</strong> <span id="profile-email"></span></p>
+                        <p><strong>Phone:</strong> <span id="profile-phone"></span></p>
+                        <p><strong>Address:</strong> <span id="profile-address"></span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN PANEL PAGE -->
+    <div id="admin-page" class="page">
+        <nav class="navbar">
+            <div class="navbar-left">
+                <h1 class="app-logo">🍔 FoodHub Admin</h1>
+            </div>
+            <div class="navbar-right">
+                <span>Admin Panel</span>
+                <button class="btn btn-secondary" onclick="logout()">Logout</button>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="admin-tabs">
+                <button class="admin-tab-btn active" onclick="switchAdminTab('admin-queries')">❓ Customer Queries</button>
+                <button class="admin-tab-btn" onclick="switchAdminTab('admin-orders')">📦 All Orders</button>
+                <button class="admin-tab-btn" onclick="switchAdminTab('admin-restaurants')">🏪 Manage Restaurants</button>
+            </div>
+
+            <!-- ADMIN QUERIES TAB -->
+            <div id="admin-queries-tab" class="admin-tab-content active">
+                <h2>Customer Queries Management</h2>
+                <div id="admin-queries-list" class="admin-queries-list">
+                    <!-- Queries will be loaded here -->
+                </div>
+            </div>
+
+            <!-- ADMIN ORDERS TAB -->
+            <div id="admin-orders-tab" class="admin-tab-content">
+                <h2>All Orders</h2>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>User ID</th>
+                            <th>Restaurant</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-orders-tbody">
+                        <!-- Orders will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ADMIN RESTAURANTS TAB -->
+            <div id="admin-restaurants-tab" class="admin-tab-content">
+                <h2>Manage Restaurants</h2>
+                
+                <div class="add-restaurant">
+                    <h3>Add New Restaurant</h3>
+                    <form id="add-restaurant-form" class="admin-form">
+                        <div class="form-group">
+                            <label>Restaurant Name</label>
+                            <input type="text" id="rest-name" placeholder="Enter restaurant name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Cuisine Type</label>
+                            <input type="text" id="rest-cuisine" placeholder="e.g., Italian, Chinese" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Delivery Time (minutes)</label>
+                            <input type="number" id="rest-delivery-time" value="30" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Delivery Fee (₹)</label>
+                            <input type="number" id="rest-delivery-fee" value="50" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Restaurant</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NOTIFICATION -->
+    <div id="notification" class="notification"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
