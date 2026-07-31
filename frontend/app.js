@@ -1,7 +1,7 @@
 // API Configuration
 const API_URL = window.location.hostname === 'localhost' 
     ? 'http://localhost:5000/api'
-    : 'https://your-render-url.onrender.com/api';  // Replace with your Render URL
+    : 'https://delivery-app-8-2dmx.onrender.com';  // Replace with your Render URL
 let authToken = localStorage.getItem('authToken');
 let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
 let selectedRestaurantId = null;
