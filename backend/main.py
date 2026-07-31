@@ -24,6 +24,19 @@ app.config['JWT_SECRET_KEY'] = os.environ.get('JWT_SECRET_KEY', 'your-secret-key
 # Initialize Database and JWT
 db = SQLAlchemy(app)
 jwt = JWTManager(app)
+#======================================HOME ROUTE ==============================
+@app.route('/', methods=['GET'])
+def home():
+    return jsonify({
+        'status': 'success',
+        'message': 'Welcome to Delivery App Backend API! Server is running fine.',
+        'endpoints': {
+            'health': '/api/health',
+            'restaurants': '/api/restaurants',
+            'login': '/api/auth/login',
+            'signup': '/api/auth/signup'
+        }
+    }), 200
 
 # ==================== DATABASE MODELS ====================
 
